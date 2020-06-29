@@ -1,4 +1,4 @@
-import { LCSLength } from './utils/lcs';
+import { LCSLengths } from './utils/lcs';
 
 export enum DiffType {
   'IDLE',
@@ -15,7 +15,7 @@ export function generateDiff<T extends string | string[]>(
   original: T,
   modified: T
 ) {
-  const common = LCSLength(original, modified);
+  const common = LCSLengths(original, modified);
   const result: DiffLine[] = [];
 
   function backtrack(firstIndex: number, secondIndex: number) {
