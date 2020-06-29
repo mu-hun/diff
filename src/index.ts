@@ -18,36 +18,20 @@ export function generateDiff<T extends string | string[]>(
   const common = LCSLengths(original, modified);
   const result: DiffLine[] = [];
 
-  function backtrack(firstIndex: number, secondIndex: number) {
-    if (firstIndex < 0 && secondIndex < 0) return;
-    if (firstIndex < 0) {
-      Add();
+  function backtrack(i: number, j: number) {
+    if (i >= 0 && j >= 0 && original[i] === modified[j]) {
+      backtrack(i - 1, j - 1);
+      result.push({ type: DiffType.IDLE, content: original[i] });
       return;
     }
-    if (secondIndex < 0) {
-      Delete();
+    if (j > 0 && (i === 0 || common[i][j - 1] >= common[i - 1][j])) {
+      backtrack(i, j - 1);
+      result.push({ type: DiffType.ADD, content: modified[j] });
       return;
     }
-    if (original[firstIndex] === modified[secondIndex]) {
-      backtrack(firstIndex - 1, secondIndex - 1);
-      result.push({ type: DiffType.IDLE, content: original[firstIndex] });
-      return;
-    }
-    if (
-      common[firstIndex][secondIndex - 1] >= common[firstIndex - 1][secondIndex]
-    ) {
-      Add();
-      return;
-    }
-    Delete();
-
-    function Add() {
-      backtrack(firstIndex, secondIndex - 1);
-      result.push({ type: DiffType.ADD, content: modified[secondIndex] });
-    }
-    function Delete() {
-      backtrack(firstIndex - 1, secondIndex);
-      result.push({ type: DiffType.DELETE, content: original[firstIndex] });
+    if (i > 0 && (j === 0 || common[i][j - 1] < common[i - 1][j])) {
+      backtrack(i - 1, j);
+      result.push({ type: DiffType.DELETE, content: original[i] });
     }
   }
   backtrack(original.length - 1, modified.length - 1);
