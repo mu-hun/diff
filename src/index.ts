@@ -11,7 +11,10 @@ interface DiffLine {
   content: string;
 }
 
-export function generateLinesDiff(original: string[], modified: string[]) {
+export function generateDiff<T extends string | string[]>(
+  original: T,
+  modified: T
+) {
   const common = LCSLength(original, modified);
   const result: DiffLine[] = [];
 
