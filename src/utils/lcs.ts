@@ -5,16 +5,12 @@ export function LCSLengths<T extends string | string[]>(first: T, second: T) {
     common.push(new Array(second.length + 1).fill(0));
   }
 
-  for (let firstIndex = 1; firstIndex <= first.length; firstIndex++) {
-    for (let secondIndex = 1; secondIndex <= second.length; secondIndex++) {
-      if (first[firstIndex] === second[secondIndex]) {
-        common[firstIndex][secondIndex] =
-          1 + common[firstIndex - 1][secondIndex - 1];
+  for (let i = 1; i <= first.length; i++) {
+    for (let j = 1; j <= second.length; j++) {
+      if (first[i] === second[j]) {
+        common[i][j] = 1 + common[i - 1][j - 1];
       } else {
-        common[firstIndex][secondIndex] = Math.max(
-          common[firstIndex][secondIndex - 1],
-          common[firstIndex - 1][secondIndex]
-        );
+        common[i][j] = Math.max(common[i][j - 1], common[i - 1][j]);
       }
     }
   }
