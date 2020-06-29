@@ -15,24 +15,23 @@ export function generateLinesDiff(original: string[], modified: string[]) {
   const common = LCSLength<string[]>(original, modified);
   const result: DiffLine[] = [];
 
-  function backtrack(originalIndex: number, modifiedIndex: number) {
-    if (originalIndex < 0 && modifiedIndex < 0) return;
-    if (originalIndex < 0) {
+  function backtrack(firstIndex: number, secondIndex: number) {
+    if (firstIndex < 0 && secondIndex < 0) return;
+    if (firstIndex < 0) {
       Add();
       return;
     }
-    if (modifiedIndex < 0) {
+    if (secondIndex < 0) {
       Delete();
       return;
     }
-    if (original[originalIndex] === modified[modifiedIndex]) {
-      backtrack(originalIndex - 1, modifiedIndex - 1);
-      result.push({ type: DiffType.IDLE, content: original[originalIndex] });
+    if (original[firstIndex] === modified[secondIndex]) {
+      backtrack(firstIndex - 1, secondIndex - 1);
+      result.push({ type: DiffType.IDLE, content: original[firstIndex] });
       return;
     }
     if (
-      common[originalIndex][modifiedIndex - 1] >=
-      common[originalIndex - 1][modifiedIndex]
+      common[firstIndex][secondIndex - 1] >= common[firstIndex - 1][secondIndex]
     ) {
       Add();
       return;
@@ -40,12 +39,12 @@ export function generateLinesDiff(original: string[], modified: string[]) {
     Delete();
 
     function Add() {
-      backtrack(originalIndex, modifiedIndex - 1);
-      result.push({ type: DiffType.ADD, content: modified[modifiedIndex] });
+      backtrack(firstIndex, secondIndex - 1);
+      result.push({ type: DiffType.ADD, content: modified[secondIndex] });
     }
     function Delete() {
-      backtrack(originalIndex - 1, modifiedIndex);
-      result.push({ type: DiffType.DELETE, content: original[originalIndex] });
+      backtrack(firstIndex - 1, secondIndex);
+      result.push({ type: DiffType.DELETE, content: original[firstIndex] });
     }
   }
   backtrack(original.length - 1, modified.length - 1);
