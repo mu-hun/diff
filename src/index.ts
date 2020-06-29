@@ -12,7 +12,7 @@ interface DiffLine {
 }
 
 export function generateLinesDiff(original: string[], modified: string[]) {
-  const common = LCSLength<string[]>(original, modified);
+  const common = LCSLength(original, modified);
   const result: DiffLine[] = [];
 
   function backtrack(firstIndex: number, secondIndex: number) {
