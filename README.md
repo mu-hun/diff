@@ -8,20 +8,20 @@
 
 [`src/index.ts`](src/index.ts) 의 API 명세입니다.
 
-#### `generateDiff<T extends string | string[]>(original: T, modified: T): DiffLine[]`
+#### `generateDiff<T extends string | string[]>(original: T, modified: T): Data[]`
 
-문자열 또는 문자열 배열을 비교할 수 있는 함수입니다. 첫번째 인자는 원본 텍스트가 오고, 두번째 인자는 수정된 텍스트를 넣고, 아래에서 설명할 `DiffLine` 인터페이스를 반환합니다.
+문자열 또는 문자열 배열을 비교할 수 있는 함수입니다. 첫번째 인자는 원본 텍스트가 오고, 두번째 인자는 수정된 텍스트를 넣고, 아래에서 설명할 `Data` 인터페이스를 반환합니다.
 
-#### `DiffLine`
+#### `Data`
 
 ```ts
-interface DiffLine {
-  type: DiffType;
+interface Data {
+  type: Type;
   content: string;
 }
 ```
 
-각 문자열을 비교한 결과를 담은 타입입니다. `type`은 Diff 상태를 담은 것으로, `DiffType` enum을 갖고 있습니다.
+각 문자열을 비교한 결과를 담은 타입입니다. `type`은 Diff 상태를 담은 것으로, `Type` enum을 갖고 있습니다.
 
 순서대로 `IDLE`는 수정하지 않았다, `DELETE`는 삭제 되었다. `ADD`는 추가되었다는 의미를 갖고 있습니다.
 
@@ -29,10 +29,10 @@ interface DiffLine {
 
 ```ts
 [
-  { type: DiffType.IDLE, content: 'a' },
-  { type: DiffType.IDLE, content: 'b' },
-  { type: DiffType.DELETE, content: 'c' },
-  { type: DiffType.ADD, content: 'f' },
+  { type: Type.IDLE, content: 'a' },
+  { type: Type.IDLE, content: 'b' },
+  { type: Type.DELETE, content: 'c' },
+  { type: Type.ADD, content: 'f' },
 ];
 ```
 

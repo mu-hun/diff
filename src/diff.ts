@@ -1,7 +1,7 @@
 import path from 'path';
 import { promises as fs } from 'fs';
 
-import { generateDiff, DiffType } from '.';
+import { generateDiff, Type } from '.';
 import { Reset, BgGreen, BgRed } from './utils/colors';
 
 const [original, modefied] = process.argv.slice(2, 4);
@@ -15,13 +15,13 @@ async function main() {
     (await modefiedText).split('\n')
   ).forEach((diff) => {
     switch (diff.type) {
-      case DiffType.IDLE:
+      case Type.IDLE:
         console.log(Reset, diff.content);
         break;
-      case DiffType.ADD:
+      case Type.ADD:
         console.log(BgGreen, diff.content);
         break;
-      case DiffType.DELETE:
+      case Type.DELETE:
         console.log(BgRed, diff.content);
         break;
       default:
