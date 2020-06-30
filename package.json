@@ -5,7 +5,8 @@
   "author": "Muhun Kim",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "diff": "ts-node src/diff.ts"
   },
   "devDependencies": {
     "@types/jest": "^26.0.3",
@@ -28,5 +29,6 @@
     "transform": {
       "^.+\\.ts?$": "ts-jest"
     }
-  }
+  },
+  "dependencies": {}
 }
