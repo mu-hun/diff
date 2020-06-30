@@ -15,7 +15,7 @@ export function generateDiff<T extends string | string[]>(
   original: T,
   modified: T
 ) {
-  const common = LCSLengths(original, modified);
+  const length = LCSLengths(original, modified);
   const result: DiffLine[] = [];
 
   function backtrack(i: number, j: number) {
@@ -24,12 +24,12 @@ export function generateDiff<T extends string | string[]>(
       result.push({ type: DiffType.IDLE, content: original[i] });
       return;
     }
-    if (j > 0 && (i === 0 || common[i][j - 1] >= common[i - 1][j])) {
+    if (j > 0 && (i === 0 || length[i][j - 1] >= length[i - 1][j])) {
       backtrack(i, j - 1);
       result.push({ type: DiffType.ADD, content: modified[j] });
       return;
     }
-    if (i > 0 && (j === 0 || common[i][j - 1] < common[i - 1][j])) {
+    if (i > 0 && (j === 0 || length[i][j - 1] < length[i - 1][j])) {
       backtrack(i - 1, j);
       result.push({ type: DiffType.DELETE, content: original[i] });
     }
