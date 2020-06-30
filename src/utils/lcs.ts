@@ -1,6 +1,5 @@
 export function LCSLengths<T extends string | string[]>(first: T, second: T) {
   const common: number[][] = [];
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   for (let i = 0; i < first.length + 1; i++) {
     common.push(new Array(second.length + 1).fill(0));
   }
